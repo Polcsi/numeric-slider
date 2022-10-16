@@ -1,0 +1,67 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans&display=swap");
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+body {
+  font-family: "Open Sans", sans-serif;
+  height: 100%;
+  width: 100%;
+}
+.container {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.box {
+  background-color: #f2f2f2;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1), 0 30px 15px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+  width: 95%;
+  height: auto;
+  border-radius: 25px;
+  margin: auto;
+}
+.inner-box {
+  margin: 2rem 3rem;
+  height: 50px;
+  border-bottom: 1px solid black;
+  border-top: 1px solid black;
+  display: flex;
+  position: relative;
+}
+.minute-container::-webkit-scrollbar {
+  display: none;
+}
+.minute-container {
+  cursor: grab;
+  height: 250px;
+  width: 50px;
+  overflow-y: auto;
+  scroll-snap-type: y mandatory;
+  -ms-overflow-style: none; /* for Internet Explorer, Edge */
+  scrollbar-width: none; /* for Firefox */
+  position: absolute;
+  top: -210%;
+  user-select: none;
+}
+.minute-container > div {
+  height: 50px;
+  scroll-snap-align: center;
+  font-size: 1.4rem;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.active {
+  font-weight: bold;
+  transform: scale(1.2);
+}
+.grabbing {
+  cursor: grabbing;
+}
