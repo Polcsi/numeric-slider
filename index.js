@@ -25,13 +25,13 @@ function calculateActive(node) {
       Math.round(element.getBoundingClientRect().y) + " " + element.textContent
     );
     if (
-      Math.round(element.getBoundingClientRect().y) === 280 ||
+      Math.round(element.getBoundingClientRect().y) === 281 ||
       Math.round(element.getBoundingClientRect().y) === 282
     ) {
-      node.classList.add("active");
+      element.classList.add("active");
       console.log("set active");
     } else {
-      node.classList.remove("active");
+      element.classList.remove("active");
     }
   });
 }
