@@ -22,7 +22,7 @@ body {
   align-items: center;
 }
 .box {
-  background-color: #f2f2f2;
+  background-color: #f2f2f2fb;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1), 0 30px 15px rgba(0, 0, 0, 0.1);
   max-width: 800px;
   width: 95%;
@@ -58,6 +58,8 @@ body {
   position: absolute;
   top: -210%;
   user-select: none;
+  scroll-behavior: smooth;
+  transition: all ease 0.3s;
 }
 .minute-container {
   right: 0;
@@ -74,7 +76,7 @@ body {
 }
 .active {
   font-weight: bold;
-  font-size: 1.7rem !important;
+  font-size: 1.8rem !important;
 }
 .grabbing {
   cursor: grabbing;
@@ -102,4 +104,24 @@ body {
   background: none;
   border: none;
   font-size: 1.4rem;
+}
+.fade {
+  position: absolute;
+  z-index: 1;
+  width: var(--element-width);
+  height: calc(1 * var(--element-height));
+}
+.fade-top {
+  background: linear-gradient(to bottom, #f2f2f2fb, #f2f2f225);
+  top: -103px;
+}
+.fade-bottom {
+  background: linear-gradient(to top, #f2f2f2fb, #f2f2f225);
+  bottom: -103px;
+}
+.fade-hour {
+  left: 0;
+}
+.fade-minute {
+  right: 0;
 }

@@ -13,13 +13,17 @@
     <div class="container">
         <div class="box">
             <div class="inner-box">
+                <div class="fade-hour fade-top fade"></div>
+                <div class="fade-hour fade-bottom fade"></div>
                 <div class="hour-container scroll"></div>
                 <div class="minute-container scroll"></div>
+                <div class="fade-minute fade-top fade"></div>
+                <div class="fade-minute fade-bottom fade"></div>
                 <div class="divider">:</div>
             </div>
             <div class="btns">
-                <button type="button" class="btn">Accept</button>
-                <button type="button" class="btn">Cancel</button>
+                <button type="button" class="btn" onclick="getValue()">Accept</button>
+                <button type="button" class="btn" onclick="setScrollbarsPosition()">Reset</button>
             </div>
         </div>
     </div>

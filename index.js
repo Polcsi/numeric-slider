@@ -16,22 +16,47 @@ hourContainer.innerHTML += `<div></div>`;
 minuteContainer.innerHTML += `<div></div>`;
 minuteContainer.innerHTML += `<div></div>`;
 
+let activePos =
+  Math.round(minuteContainer.getBoundingClientRect().top) + 2 * 50 - 1;
+
+window.addEventListener("resize", () => {
+  activePos =
+    Math.round(minuteContainer.getBoundingClientRect().top) + 2 * 50 - 1;
+});
+
 calculateActive(minuteContainer);
 calculateActive(hourContainer);
 
+setScrollbarsPosition();
+
+function setScrollbarsPosition() {
+  const currentTime = new Date();
+  const setMinScrollPos = 50 * currentTime.getMinutes();
+  const setHourScrollPos = 50 * currentTime.getHours();
+
+  minuteContainer.scrollTop = setMinScrollPos;
+  hourContainer.scrollTop = setHourScrollPos;
+}
+
 function calculateActive(node) {
   Array.from(node.childNodes).forEach(function (element, index) {
-    console.log(
-      Math.round(element.getBoundingClientRect().y) + " " + element.textContent
-    );
-    if (
-      Math.round(element.getBoundingClientRect().y) === 281 ||
-      Math.round(element.getBoundingClientRect().y) === 282
-    ) {
-      element.classList.add("active");
-      console.log("set active");
-    } else {
-      element.classList.remove("active");
+    try {
+      /* console.log(
+        Math.round(element.getBoundingClientRect().y) +
+          " " +
+          element.textContent
+      ); */
+      if (
+        Math.round(element.getBoundingClientRect().y) === activePos ||
+        Math.round(element.getBoundingClientRect().y) === activePos + 1
+      ) {
+        element.classList.add("active");
+        /* console.log("set active"); */
+      } else {
+        element.classList.remove("active");
+      }
+    } catch (err) {
+      console.log(err);
     }
   });
 }
@@ -53,72 +78,31 @@ hourContainer.addEventListener("scroll", (e) => {
   }, 100);
 });
 
-const sliderChildren = Array.from(minuteContainer.childNodes);
-let isDragging = false;
-let animationID = null;
-let startPos = 0;
-let index = 2;
-
-/* minuteContainer.addEventListener("dragstart", (e) => e.preventDefault());
-
-// Touch events
-minuteContainer.addEventListener("touchstart", touchStart(index));
-minuteContainer.addEventListener("touchend", touchEnd);
-minuteContainer.addEventListener("touchmove", touchMove);
-
-// Mobile events
-minuteContainer.addEventListener("mousedown", touchStart(index));
-minuteContainer.addEventListener("mouseup", touchEnd);
-minuteContainer.addEventListener("mouseleave", touchEnd);
-minuteContainer.addEventListener("mousemove", touchMove); */
-
-function touchStart(index) {
-  return function (event) {
-    isDragging = true;
-    startPos = getPositionY(event);
-    console.log(`start ${startPos}`);
-
-    animationID = requestAnimationFrame(animation);
-    minuteContainer.classList.add("grabbing");
-  };
-}
-
-function touchEnd() {
-  console.log("end");
-  isDragging = false;
-  cancelAnimationFrame(animationID);
-
-  minuteContainer.classList.remove("grabbing");
-}
-
-function touchMove(event) {
-  if (isDragging) {
-    let actualPos = getPositionY(event);
-    console.log(`move ${actualPos}`);
-    let movedBy = startPos - actualPos;
-    console.log(movedBy);
-    if (startPos > actualPos) {
-      if (Math.round(movedBy % 32) === 0) {
-        sliderChildren[index].classList.remove("active");
-        console.log(sliderChildren[index]);
-        sliderChildren[++index].classList.add("active");
-        console.log(sliderChildren[index]);
-      }
-    }
-  }
-}
-
-function animation() {
-  // animation funciton
-  if (isDragging) {
-    requestAnimationFrame(animation);
-  }
-}
-
-function getPositionY(event) {
-  return event.type.includes("mouse") ? event.pageY : event.touches[0].clientY;
-}
-
 function padTo2Digits(num) {
   return num.toString().padStart(2, "0");
+}
+
+function getValue() {
+  let hour, minute;
+  Array.from(hourContainer.childNodes).forEach(function (element, index) {
+    try {
+      if (
+        Math.round(element.getBoundingClientRect().y) === activePos ||
+        Math.round(element.getBoundingClientRect().y) === activePos + 1
+      ) {
+        hour = element.textContent;
+      }
+    } catch {}
+  });
+  Array.from(minuteContainer.childNodes).forEach(function (element, index) {
+    try {
+      if (
+        Math.round(element.getBoundingClientRect().y) === activePos ||
+        Math.round(element.getBoundingClientRect().y) === activePos + 1
+      ) {
+        minute = element.textContent;
+      }
+    } catch {}
+  });
+  window.alert(`Setted value is: ${hour}:${minute}`);
 }
