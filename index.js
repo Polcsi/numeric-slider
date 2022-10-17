@@ -1,78 +1,86 @@
 const minuteContainer = document.querySelector(".minute-container");
-const secondsContainer = document.querySelector(".seconds-container");
+const hourContainer = document.querySelector(".hour-container");
 
 minuteContainer.innerHTML += `<div></div>`;
 minuteContainer.innerHTML += `<div></div>`;
+hourContainer.innerHTML += `<div></div>`;
+hourContainer.innerHTML += `<div></div>`;
 for (let i = 0; i < 60; ++i) {
   minuteContainer.innerHTML += `<div>${padTo2Digits(i)}</div>`;
-  /* secondsContainer.innerHTML += `<div>${i}</div>`; */
 }
+for (let i = 0; i < 24; ++i) {
+  hourContainer.innerHTML += `<div>${padTo2Digits(i)}</div>`;
+}
+hourContainer.innerHTML += `<div></div>`;
+hourContainer.innerHTML += `<div></div>`;
 minuteContainer.innerHTML += `<div></div>`;
 minuteContainer.innerHTML += `<div></div>`;
 
-Array.from(minuteContainer.childNodes).forEach(function (element, index) {
-  console.log(
-    Math.round(element.getBoundingClientRect().y) + " " + element.textContent
-  );
-  if (
-    Math.round(element.getBoundingClientRect().y) === 308 ||
-    Math.round(element.getBoundingClientRect().y) === 309
-  ) {
-    element.classList.add("active");
-    console.log("set active");
-  } else {
-    element.classList.remove("active");
-  }
+calculateActive(minuteContainer);
+calculateActive(hourContainer);
+
+function calculateActive(node) {
+  Array.from(node.childNodes).forEach(function (element, index) {
+    console.log(
+      Math.round(element.getBoundingClientRect().y) + " " + element.textContent
+    );
+    if (
+      Math.round(element.getBoundingClientRect().y) === 280 ||
+      Math.round(element.getBoundingClientRect().y) === 282
+    ) {
+      node.classList.add("active");
+      console.log("set active");
+    } else {
+      node.classList.remove("active");
+    }
+  });
+}
+
+var minuteTimer = null;
+minuteContainer.addEventListener("scroll", (e) => {
+  clearTimeout(minuteTimer);
+
+  minuteTimer = setTimeout(function () {
+    calculateActive(minuteContainer);
+  }, 100);
+});
+var hourTimer = null;
+hourContainer.addEventListener("scroll", (e) => {
+  clearTimeout(hourTimer);
+
+  hourTimer = setTimeout(function () {
+    calculateActive(hourContainer);
+  }, 100);
 });
 
-var timer = null;
-/* minuteContainer.addEventListener("scroll", (e) => {
-  clearTimeout(timer);
+const sliderChildren = Array.from(minuteContainer.childNodes);
+let isDragging = false;
+let animationID = null;
+let startPos = 0;
+let index = 2;
 
-  timer = setTimeout(function () {
-    Array.from(e.path[0].childNodes).forEach(function (element, index) {
-      console.log(
-        Math.round(element.getBoundingClientRect().y) +
-          " " +
-          element.textContent
-      );
-      if (
-        Math.round(element.getBoundingClientRect().y) === 308 ||
-        Math.round(element.getBoundingClientRect().y) === 309
-      ) {
-        element.classList.add("active");
-        console.log("set active");
-      } else {
-        element.classList.remove("active");
-      }
-    });
-  }, 100);
-}); */
-
-minuteContainer.addEventListener("dragstart", (e) => e.preventDefault());
+/* minuteContainer.addEventListener("dragstart", (e) => e.preventDefault());
 
 // Touch events
-minuteContainer.addEventListener("touchstart", touchStart);
+minuteContainer.addEventListener("touchstart", touchStart(index));
 minuteContainer.addEventListener("touchend", touchEnd);
 minuteContainer.addEventListener("touchmove", touchMove);
 
 // Mobile events
-minuteContainer.addEventListener("mousedown", touchStart);
+minuteContainer.addEventListener("mousedown", touchStart(index));
 minuteContainer.addEventListener("mouseup", touchEnd);
 minuteContainer.addEventListener("mouseleave", touchEnd);
-minuteContainer.addEventListener("mousemove", touchMove);
+minuteContainer.addEventListener("mousemove", touchMove); */
 
-let isDragging = false;
-let animationID = null;
-let startPos = 0;
+function touchStart(index) {
+  return function (event) {
+    isDragging = true;
+    startPos = getPositionY(event);
+    console.log(`start ${startPos}`);
 
-function touchStart(event) {
-  isDragging = true;
-  startPos = getPositionY(event);
-  console.log(`start ${startPos}`);
-
-  animationID = requestAnimationFrame(animation);
-  minuteContainer.classList.add("grabbing");
+    animationID = requestAnimationFrame(animation);
+    minuteContainer.classList.add("grabbing");
+  };
 }
 
 function touchEnd() {
@@ -85,7 +93,18 @@ function touchEnd() {
 
 function touchMove(event) {
   if (isDragging) {
-    console.log(`move ${getPositionY(event)}`);
+    let actualPos = getPositionY(event);
+    console.log(`move ${actualPos}`);
+    let movedBy = startPos - actualPos;
+    console.log(movedBy);
+    if (startPos > actualPos) {
+      if (Math.round(movedBy % 32) === 0) {
+        sliderChildren[index].classList.remove("active");
+        console.log(sliderChildren[index]);
+        sliderChildren[++index].classList.add("active");
+        console.log(sliderChildren[index]);
+      }
+    }
   }
 }
 

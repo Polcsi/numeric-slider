@@ -10,6 +10,10 @@ body {
   height: 100%;
   width: 100%;
 }
+:root {
+  --element-height: 50px;
+  --element-width: 50px;
+}
 .container {
   height: 100vh;
   width: 100vw;
@@ -25,22 +29,28 @@ body {
   height: auto;
   border-radius: 25px;
   margin: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 3.8rem;
 }
 .inner-box {
-  margin: 2rem 3rem;
-  height: 50px;
+  margin: 7rem 3rem 3rem 3rem;
+  height: var(--element-height);
+  width: 150px;
   border-bottom: 1px solid black;
   border-top: 1px solid black;
   display: flex;
   position: relative;
 }
-.minute-container::-webkit-scrollbar {
+.scroll::-webkit-scrollbar {
   display: none;
 }
-.minute-container {
+.scroll {
   cursor: grab;
   height: 250px;
-  width: 50px;
+  width: var(--element-width);
   overflow-y: auto;
   scroll-snap-type: y mandatory;
   -ms-overflow-style: none; /* for Internet Explorer, Edge */
@@ -49,8 +59,12 @@ body {
   top: -210%;
   user-select: none;
 }
-.minute-container > div {
-  height: 50px;
+.minute-container {
+  right: 0;
+}
+.scroll > div {
+  height: var(--element-height);
+  width: var(--element-width);
   scroll-snap-align: center;
   font-size: 1.4rem;
   text-align: center;
@@ -60,8 +74,32 @@ body {
 }
 .active {
   font-weight: bold;
-  transform: scale(1.2);
+  font-size: 1.7rem !important;
 }
 .grabbing {
   cursor: grabbing;
+}
+.divider {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.8rem;
+  height: var(--element-height);
+  text-align: center;
+  vertical-align: middle;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.btns {
+  width: 100%;
+  margin: 1rem;
+  display: flex;
+  justify-content: space-around;
+}
+.btn {
+  background: none;
+  border: none;
+  font-size: 1.4rem;
 }
