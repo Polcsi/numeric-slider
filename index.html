@@ -11,7 +11,9 @@
 
 <body>
     <div class="container">
-        <div class="box">
+        <button type="button" onclick="toggleDateModal()">Date</button>
+        <button type="button" onclick="toggleTimeModal()">Time</button>
+        <div class="box time-modal show">
             <div class="inner-box">
                 <div class="fade-hour fade-top fade"></div>
                 <div class="fade-hour fade-bottom fade"></div>
@@ -24,6 +26,17 @@
             <div class="btns">
                 <button type="button" class="btn" onclick="getValue()">Accept</button>
                 <button type="button" class="btn" onclick="setScrollbarsPosition()">Reset</button>
+            </div>
+        </div>
+        <div class="box date-modal">
+            <div class="date-inner-box">
+                <div class="year-container"></div>
+                <div class="month-container"></div>
+                <div class="day-container"></div>
+            </div>
+            <div class="btns">
+                <button type="button" class="btn">Accept</button>
+                <button type="button" class="btn">Reset</button>
             </div>
         </div>
     </div>

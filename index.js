@@ -129,3 +129,29 @@ function getValue() {
   });
   window.alert(`Setted value is: ${hour}:${minute}`);
 }
+
+function toggleTimeModal() {
+  document.querySelector(".time-modal").classList.toggle("show");
+}
+
+function toggleDateModal() {
+  document.querySelector(".date-modal").classList.toggle("show");
+}
+/* Date Selector */
+const months = [
+  "january",
+  "february",
+  "march",
+  "april",
+  "may",
+  "june",
+  "july",
+  "august",
+  "september",
+  "october",
+  "november",
+  "december",
+];
+const yearContainer = document.querySelector(".year-container");
+const monthContainer = document.querySelector(".month-container");
+const dayContainer = document.querySelector(".day-container");

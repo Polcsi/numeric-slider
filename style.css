@@ -19,11 +19,12 @@ body {
 .container {
   height: 100vh;
   width: 100vw;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 .box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   background-color: var(--default-color);
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1), 0 30px 15px rgba(0, 0, 0, 0.1);
   max-width: 800px;
@@ -36,6 +37,8 @@ body {
   justify-content: center;
   align-items: center;
   gap: 3.8rem;
+  will-change: left;
+  transition: left ease 0.3s;
 }
 .inner-box {
   margin: 7rem 3rem 3rem 3rem;
@@ -134,4 +137,17 @@ body {
 }
 .fade-minute {
   right: 0;
+}
+.show {
+  left: -100%;
+}
+/* Date modal */
+.date-inner-box {
+  margin: 7rem 1rem 3rem 1rem;
+  height: var(--element-height);
+  width: 260px;
+  border-bottom: 1px solid black;
+  border-top: 1px solid black;
+  display: flex;
+  position: relative;
 }
