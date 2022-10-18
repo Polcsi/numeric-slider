@@ -13,6 +13,8 @@ body {
 :root {
   --element-height: 50px;
   --element-width: 50px;
+  --default-color: #f2f2f2fb;
+  --default-color-transparent: #f2f2f225;
 }
 .container {
   height: 100vh;
@@ -22,7 +24,7 @@ body {
   align-items: center;
 }
 .box {
-  background-color: #f2f2f2fb;
+  background-color: var(--default-color);
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1), 0 30px 15px rgba(0, 0, 0, 0.1);
   max-width: 800px;
   width: 95%;
@@ -112,11 +114,19 @@ body {
   height: calc(1 * var(--element-height));
 }
 .fade-top {
-  background: linear-gradient(to bottom, #f2f2f2fb, #f2f2f225);
+  background: linear-gradient(
+    to bottom,
+    var(--default-color),
+    var(--default-color-transparent)
+  );
   top: -103px;
 }
 .fade-bottom {
-  background: linear-gradient(to top, #f2f2f2fb, #f2f2f225);
+  background: linear-gradient(
+    to top,
+    var(--default-color),
+    var(--default-color-transparent)
+  );
   bottom: -103px;
 }
 .fade-hour {

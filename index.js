@@ -39,7 +39,9 @@ function setScrollbarsPosition() {
 }
 
 function calculateActive(node) {
-  Array.from(node.childNodes).forEach(function (element, index) {
+  const divs = Array.from(node.childNodes);
+  let hasActive = false;
+  divs.forEach(function (element) {
     try {
       /* console.log(
         Math.round(element.getBoundingClientRect().y) +
@@ -55,10 +57,31 @@ function calculateActive(node) {
       } else {
         element.classList.remove("active");
       }
+      if (element.classList.value === "active") {
+        hasActive = true;
+      }
     } catch (err) {
       console.log(err);
     }
   });
+  if (!hasActive) {
+    divs.forEach(function (element) {
+      /* console.log(
+        Math.round(element.getBoundingClientRect().y) +
+          " " +
+          element.textContent +
+          " " +
+          activePos +
+          " " +
+          hourContainer.scrollTop
+      ); */
+      let elementPos = Math.round(element.getBoundingClientRect().y);
+      if (elementPos >= activePos - 25 && elementPos <= activePos + 25) {
+        element.classList.add("active");
+        node.scrollTop = element.textContent * 50;
+      }
+    });
+  }
 }
 
 var minuteTimer = null;
@@ -84,7 +107,7 @@ function padTo2Digits(num) {
 
 function getValue() {
   let hour, minute;
-  Array.from(hourContainer.childNodes).forEach(function (element, index) {
+  Array.from(hourContainer.childNodes).forEach(function (element) {
     try {
       if (
         Math.round(element.getBoundingClientRect().y) === activePos ||
@@ -94,7 +117,7 @@ function getValue() {
       }
     } catch {}
   });
-  Array.from(minuteContainer.childNodes).forEach(function (element, index) {
+  Array.from(minuteContainer.childNodes).forEach(function (element) {
     try {
       if (
         Math.round(element.getBoundingClientRect().y) === activePos ||
