@@ -13,6 +13,9 @@ body {
 :root {
   --element-height: 50px;
   --element-width: 50px;
+  --wider-element-width: calc(
+    2 * var(--element-width) + (var(--element-width) / 2)
+  );
   --default-color: #f2f2f2fb;
   --default-color-transparent: #f2f2f225;
 }
@@ -66,9 +69,6 @@ body {
   scroll-behavior: smooth;
   transition: all ease 0.3s;
 }
-.minute-container {
-  right: 0;
-}
 .scroll > div {
   height: var(--element-height);
   width: var(--element-width);
@@ -78,6 +78,9 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.minute-container {
+  right: 0;
 }
 .active {
   font-weight: bold;
@@ -138,16 +141,44 @@ body {
 .fade-minute {
   right: 0;
 }
-.show {
+.hide {
   left: -100%;
 }
 /* Date modal */
 .date-inner-box {
   margin: 7rem 1rem 3rem 1rem;
   height: var(--element-height);
-  width: 260px;
+  width: 265px;
   border-bottom: 1px solid black;
   border-top: 1px solid black;
   display: flex;
   position: relative;
+}
+.day-container {
+  right: 0;
+}
+.year-container {
+  left: 0;
+}
+.month-container {
+  left: 35%;
+}
+.scroll-month {
+  width: var(--wider-element-width);
+}
+.scroll-month > div {
+  width: var(--wider-element-width);
+  text-align: left;
+  justify-content: start;
+  text-transform: capitalize;
+}
+.fade-year {
+  left: 0;
+}
+.fade-day {
+  right: 0;
+}
+.fade-month {
+  width: var(--wider-element-width);
+  left: 35%;
 }

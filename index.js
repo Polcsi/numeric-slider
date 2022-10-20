@@ -1,20 +1,16 @@
 const minuteContainer = document.querySelector(".minute-container");
 const hourContainer = document.querySelector(".hour-container");
 
-minuteContainer.innerHTML += `<div></div>`;
-minuteContainer.innerHTML += `<div></div>`;
-hourContainer.innerHTML += `<div></div>`;
-hourContainer.innerHTML += `<div></div>`;
-for (let i = 0; i < 60; ++i) {
-  minuteContainer.innerHTML += `<div>${padTo2Digits(i)}</div>`;
+function fillNumericContainer(length, destinationContainer) {
+  destinationContainer.innerHTML += `<div></div><div></div>`;
+  for (let i = 0; i < length; ++i) {
+    destinationContainer.innerHTML += `<div>${padTo2Digits(i)}</div>`;
+  }
+  destinationContainer.innerHTML += `<div></div><div></div>`;
 }
-for (let i = 0; i < 24; ++i) {
-  hourContainer.innerHTML += `<div>${padTo2Digits(i)}</div>`;
-}
-hourContainer.innerHTML += `<div></div>`;
-hourContainer.innerHTML += `<div></div>`;
-minuteContainer.innerHTML += `<div></div>`;
-minuteContainer.innerHTML += `<div></div>`;
+
+fillNumericContainer(24, hourContainer);
+fillNumericContainer(60, minuteContainer);
 
 let activePos =
   Math.round(minuteContainer.getBoundingClientRect().top) + 2 * 50 - 1;
@@ -105,7 +101,7 @@ function padTo2Digits(num) {
   return num.toString().padStart(2, "0");
 }
 
-function getValue() {
+function getTimeValue() {
   let hour, minute;
   Array.from(hourContainer.childNodes).forEach(function (element) {
     try {
@@ -131,13 +127,16 @@ function getValue() {
 }
 
 function toggleTimeModal() {
-  document.querySelector(".time-modal").classList.toggle("show");
+  document.querySelector(".time-modal").classList.toggle("hide");
 }
 
 function toggleDateModal() {
-  document.querySelector(".date-modal").classList.toggle("show");
+  document.querySelector(".date-modal").classList.toggle("hide");
 }
 /* Date Selector */
+const yearContainer = document.querySelector(".year-container");
+const monthContainer = document.querySelector(".month-container");
+const dayContainer = document.querySelector(".day-container");
 const months = [
   "january",
   "february",
@@ -152,6 +151,50 @@ const months = [
   "november",
   "december",
 ];
-const yearContainer = document.querySelector(".year-container");
-const monthContainer = document.querySelector(".month-container");
-const dayContainer = document.querySelector(".day-container");
+
+const today = new Date();
+const years = [
+  today.getFullYear() - 3,
+  today.getFullYear() - 2,
+  today.getFullYear() - 1,
+  today.getFullYear(),
+  today.getFullYear() + 1,
+  today.getFullYear() + 2,
+  today.getFullYear() + 3,
+];
+
+let days = generateDaysArray(31);
+
+function fillContainer(array, destinationContainer) {
+  destinationContainer.innerHTML += `<div></div><div></div>`;
+  array.forEach((element) => {
+    destinationContainer.innerHTML += `<div>${element}</div>`;
+  });
+  destinationContainer.innerHTML += `<div></div><div></div>`;
+}
+function generateDaysArray(length) {
+  let resultArray = [];
+  for (let i = 0; i < length; ++i) {
+    resultArray = [...resultArray, padTo2Digits(i)];
+  }
+  return resultArray;
+}
+
+fillContainer(years, yearContainer);
+fillContainer(months, monthContainer);
+fillContainer(days, dayContainer);
+
+function setScrollbarsPositionDate() {
+  const dateToday = new Date();
+
+  let yearIndex = years.findIndex((x) => x === dateToday.getFullYear());
+  let monthIndex = months.findIndex((x) => x === months[dateToday.getMonth()]);
+  let dayIndex = days.findIndex(
+    (x) => padTo2Digits(x) === `${dateToday.getDate()}`
+  );
+  yearContainer.scrollTop = yearIndex * 50;
+  monthContainer.scrollTop = monthIndex * 50;
+  dayContainer.scrollTop = dayIndex * 50;
+}
+
+setScrollbarsPositionDate();

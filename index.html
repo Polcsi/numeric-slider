@@ -13,7 +13,7 @@
     <div class="container">
         <button type="button" onclick="toggleDateModal()">Date</button>
         <button type="button" onclick="toggleTimeModal()">Time</button>
-        <div class="box time-modal show">
+        <div class="box time-modal hide">
             <div class="inner-box">
                 <div class="fade-hour fade-top fade"></div>
                 <div class="fade-hour fade-bottom fade"></div>
@@ -24,19 +24,25 @@
                 <div class="divider">:</div>
             </div>
             <div class="btns">
-                <button type="button" class="btn" onclick="getValue()">Accept</button>
+                <button type="button" class="btn" onclick="getTimeValue()">Accept</button>
                 <button type="button" class="btn" onclick="setScrollbarsPosition()">Reset</button>
             </div>
         </div>
         <div class="box date-modal">
             <div class="date-inner-box">
-                <div class="year-container"></div>
-                <div class="month-container"></div>
-                <div class="day-container"></div>
+                <div class="fade-year fade-top fade"></div>
+                <div class="fade-year fade-bottom fade"></div>
+                <div class="year-container scroll"></div>
+                <div class="fade-month fade-top fade"></div>
+                <div class="fade-month fade-bottom fade"></div>
+                <div class="month-container scroll scroll-month"></div>
+                <div class="fade-day fade-top fade"></div>
+                <div class="fade-day fade-bottom fade"></div>
+                <div class="day-container scroll"></div>
             </div>
             <div class="btns">
                 <button type="button" class="btn">Accept</button>
-                <button type="button" class="btn">Reset</button>
+                <button type="button" class="btn" onclick="setScrollbarsPositionDate()">Reset</button>
             </div>
         </div>
     </div>
