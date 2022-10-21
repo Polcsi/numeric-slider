@@ -157,7 +157,7 @@ function fillContainer(array, destinationContainer) {
 }
 function generateDaysArray(length) {
   let resultArray = [];
-  for (let i = 0; i < length; ++i) {
+  for (let i = 1; i < length; ++i) {
     resultArray = [...resultArray, padTo2Digits(i)];
   }
   return resultArray;
@@ -179,6 +179,15 @@ function setScrollbarsPositionDate() {
   monthContainer.scrollTop = monthIndex * 50;
   dayContainer.scrollTop = dayIndex * 50;
 }
+function setDayScrollbarPosition() {
+  const dateToday = new Date();
+
+  let dayIndex = days.findIndex(
+    (x) => padTo2Digits(x) === `${dateToday.getDate()}`
+  );
+
+  dayContainer.scrollTop = dayIndex * 50;
+}
 
 setScrollbarsPositionDate();
 
@@ -188,6 +197,18 @@ yearContainer.addEventListener("scroll", (e) => {
 
   yearTimer = setTimeout(function () {
     calculateActive(yearContainer);
+    try {
+      days = generateDaysArray(
+        daysInMonth(
+          getActive(yearContainer).textContent,
+          parseInt(getActive(monthContainer).getAttribute("index")) + 1
+        ) + 1
+      );
+      clearContainer(dayContainer);
+      fillContainer(days, dayContainer);
+      calculateActive(dayContainer);
+      setDayScrollbarPosition();
+    } catch {}
   }, 100);
 });
 
@@ -197,6 +218,16 @@ monthContainer.addEventListener("scroll", (e) => {
 
   monthTimer = setTimeout(function () {
     calculateActive(monthContainer);
+    days = generateDaysArray(
+      daysInMonth(
+        getActive(yearContainer).textContent,
+        parseInt(getActive(monthContainer).getAttribute("index")) + 1
+      ) + 1
+    );
+    clearContainer(dayContainer);
+    fillContainer(days, dayContainer);
+    calculateActive(dayContainer);
+    setDayScrollbarPosition();
   }, 100);
 });
 
@@ -225,4 +256,12 @@ function getDateValue() {
   const day = getActive(dayContainer).textContent;
 
   window.alert(`Selected date is: ${year}.${month}.${day}`);
+}
+
+function daysInMonth(year, month) {
+  return new Date(year, month, 0).getDate();
+}
+
+function clearContainer(container) {
+  container.innerHTML = "";
 }
