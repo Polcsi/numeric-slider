@@ -13,9 +13,8 @@ body {
 :root {
   --element-height: 50px;
   --element-width: 50px;
-  --wider-element-width: calc(
-    2 * var(--element-width) + (var(--element-width) / 2)
-  );
+  --wide-element-width: calc(var(--element-width) + var(--element-width) / 2);
+  --wider-element-width: calc(2 * var(--element-width) + var(--element-width));
   --default-color: #f2f2f2fb;
   --default-color-transparent: #f2f2f225;
 }
@@ -148,20 +147,24 @@ body {
 .date-inner-box {
   margin: 7rem 1rem 3rem 1rem;
   height: var(--element-height);
-  width: 265px;
+  width: 285px;
   border-bottom: 1px solid black;
   border-top: 1px solid black;
   display: flex;
   position: relative;
 }
 .day-container {
-  right: 0;
+  right: -1%;
 }
 .year-container {
   left: 0;
+  width: var(--wide-element-width);
+}
+.year-container > div {
+  width: var(--wide-element-width);
 }
 .month-container {
-  left: 35%;
+  left: 30%;
 }
 .scroll-month {
   width: var(--wider-element-width);
@@ -174,11 +177,12 @@ body {
 }
 .fade-year {
   left: 0;
+  width: var(--wide-element-width);
 }
 .fade-day {
-  right: 0;
+  right: -1%;
 }
 .fade-month {
   width: var(--wider-element-width);
-  left: 35%;
+  left: 30%;
 }

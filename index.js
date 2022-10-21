@@ -4,7 +4,9 @@ const hourContainer = document.querySelector(".hour-container");
 function fillNumericContainer(length, destinationContainer) {
   destinationContainer.innerHTML += `<div></div><div></div>`;
   for (let i = 0; i < length; ++i) {
-    destinationContainer.innerHTML += `<div>${padTo2Digits(i)}</div>`;
+    destinationContainer.innerHTML += `<div index="${i}">${padTo2Digits(
+      i
+    )}</div>`;
   }
   destinationContainer.innerHTML += `<div></div><div></div>`;
 }
@@ -74,7 +76,7 @@ function calculateActive(node) {
       let elementPos = Math.round(element.getBoundingClientRect().y);
       if (elementPos >= activePos - 25 && elementPos <= activePos + 25) {
         element.classList.add("active");
-        node.scrollTop = element.textContent * 50;
+        node.scrollTop = element.getAttribute("index") * 50;
       }
     });
   }
@@ -102,28 +104,9 @@ function padTo2Digits(num) {
 }
 
 function getTimeValue() {
-  let hour, minute;
-  Array.from(hourContainer.childNodes).forEach(function (element) {
-    try {
-      if (
-        Math.round(element.getBoundingClientRect().y) === activePos ||
-        Math.round(element.getBoundingClientRect().y) === activePos + 1
-      ) {
-        hour = element.textContent;
-      }
-    } catch {}
-  });
-  Array.from(minuteContainer.childNodes).forEach(function (element) {
-    try {
-      if (
-        Math.round(element.getBoundingClientRect().y) === activePos ||
-        Math.round(element.getBoundingClientRect().y) === activePos + 1
-      ) {
-        minute = element.textContent;
-      }
-    } catch {}
-  });
-  window.alert(`Setted value is: ${hour}:${minute}`);
+  const hour = getActive(hourContainer).textContent;
+  const minute = getActive(minuteContainer).textContent;
+  window.alert(`Selected time is: ${hour}:${minute}`);
 }
 
 function toggleTimeModal() {
@@ -167,8 +150,8 @@ let days = generateDaysArray(31);
 
 function fillContainer(array, destinationContainer) {
   destinationContainer.innerHTML += `<div></div><div></div>`;
-  array.forEach((element) => {
-    destinationContainer.innerHTML += `<div>${element}</div>`;
+  array.forEach((element, index) => {
+    destinationContainer.innerHTML += `<div index="${index}">${element}</div>`;
   });
   destinationContainer.innerHTML += `<div></div><div></div>`;
 }
@@ -198,3 +181,48 @@ function setScrollbarsPositionDate() {
 }
 
 setScrollbarsPositionDate();
+
+var yearTimer = null;
+yearContainer.addEventListener("scroll", (e) => {
+  clearTimeout(yearTimer);
+
+  yearTimer = setTimeout(function () {
+    calculateActive(yearContainer);
+  }, 100);
+});
+
+var monthTimer = null;
+monthContainer.addEventListener("scroll", (e) => {
+  clearTimeout(monthTimer);
+
+  monthTimer = setTimeout(function () {
+    calculateActive(monthContainer);
+  }, 100);
+});
+
+var dayTimer = null;
+dayContainer.addEventListener("scroll", (e) => {
+  clearTimeout(dayTimer);
+
+  dayTimer = setTimeout(function () {
+    calculateActive(dayContainer);
+  }, 100);
+});
+
+function getActive(parentNode) {
+  let activeElement = null;
+  Array.from(parentNode.childNodes).forEach((element) => {
+    if (element.classList.value === "active") {
+      activeElement = element;
+    }
+  });
+  return activeElement;
+}
+
+function getDateValue() {
+  const year = getActive(yearContainer).textContent;
+  const month = getActive(monthContainer).textContent;
+  const day = getActive(dayContainer).textContent;
+
+  window.alert(`Selected date is: ${year}.${month}.${day}`);
+}
